@@ -49,15 +49,13 @@ def _url_required(obj: dict, obj_type: str, errors: List[str]) -> str | None:
     return None
 
 
-def _check_reachable(url: str, errors: List[str], *, verify_archive: bool = False) -> None:
+def _check_reachable(url: str, errors: List[str]) -> None:
     try:
         with urllib.request.urlopen(url, timeout=30) as resp:
             if resp.status != 200:
                 errors.append(f"ERROR: {url} returned status {resp.status}")
                 return
 
-            if not verify_archive:
-                return
 
             path_part = Path(urllib.parse.urlparse(url).path.lower())
             suffixes = path_part.suffixes
@@ -115,7 +113,7 @@ def validate_urls(cfg: dict) -> List[str]:
     for pack in cfg.get("custom_packs", []):
         url = _url_required(pack, "custom_packs", errors)
         if url:
-            _check_reachable(url, errors, verify_archive=True)
+            _check_reachable(url, errors)
 
     # pre_config_docs
     for pack in cfg.get("pre_config_docs", []):
