@@ -109,9 +109,6 @@ def verify_tar(path: Path) -> bool:
 
 
 def validate_urls(cfg: dict) -> List[str]:
-    """
-    Check every URL in *cfg* according to the business rules.
-    """
     errors: List[str] = []
 
     # custom_packs
