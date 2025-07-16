@@ -11,7 +11,7 @@ requires-python = ">=3.8"
 dynamic = ["version"]
 
 [project.scripts]
-xsiam-pov-config-check = "xsiam_pov_config_check.__main__:main"
+xsiam-pov-config-check = "xsiam_pov_config_check.xsiam_pov_config_check:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
