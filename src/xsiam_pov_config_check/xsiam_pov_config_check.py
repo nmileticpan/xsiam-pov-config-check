@@ -10,8 +10,11 @@ import tempfile
 import urllib.parse
 import urllib.request
 import zipfile
+import ssl
 from pathlib import Path
 from typing import List
+
+_UNVERIFIED_SSL_CONTEXT = ssl._create_unverified_context()
 
 _CHUNK = 1 << 20  # 1 MiB
 
@@ -51,7 +54,7 @@ def _url_required(obj: dict, obj_type: str, errors: List[str]) -> str | None:
 
 def _check_reachable(url: str, errors: List[str]) -> None:
     try:
-        with urllib.request.urlopen(url, timeout=30) as resp:
+        with urllib.request.urlopen(url, timeout=30, context=_UNVERIFIED_SSL_CONTEXT) as resp:
             if resp.status != 200:
                 errors.append(f"ERROR: {url} returned status {resp.status}")
                 return
